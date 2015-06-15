@@ -49,6 +49,12 @@ RUN mkdir -p /etc/mysql/conf.d \
 		echo 'datadir = /var/lib/mysql'; \
 	} > /etc/mysql/conf.d/docker.cnf
 
+RUN { \
+    echo '[mysqld]'; \
+    echo 'character-set-server = utf8'; \
+    echo 'default-collation = utf8_unicode_ci'; \
+} > /etc/mysql/conf.d/charset.cnf
+
 VOLUME /var/lib/mysql
 
 COPY docker-entrypoint.sh /entrypoint.sh
