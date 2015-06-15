@@ -29,6 +29,12 @@ RUN { \
 	&& apt-get update && apt-get install -y mysql-server="${MYSQL_VERSION}"* && rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql
 
+RUN { \
+    echo '[mysqld]'; \
+    echo 'character-set-server = utf8'; \
+    echo 'default-collation = utf8_unicode_ci'; \
+} > /etc/mysql/conf.d/charset.cnf
+
 # comment out a few problematic configuration values
 RUN sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf
 
