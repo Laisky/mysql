@@ -40,27 +40,21 @@ ENV PATH $PATH:/usr/local/mysql/bin:/usr/local/mysql/scripts
 # this is only for 5.5 since it doesn't have an APT repo, and will go away when 5.5 does
 RUN mkdir -p /etc/mysql/conf.d \
 	&& { \
+		echo '[client]'; \
+	        echo 'default-character-set=utf8'; \
+	        echo '[mysql]'; \
+	        echo 'default-character-set=utf8'; \
 		echo '[mysqld]'; \
 		echo '!includedir /etc/mysql/conf.d/'; \
+		echo 'collation-server = utf8_unicode_ci'; \
+		echo 'init-connect='SET NAMES utf8''; \
+		echo 'character-set-server = utf8'; \
 	} > /etc/mysql/my.cnf \
 	&& { \
 		echo '[mysqld]'; \
 		echo 'user = mysql'; \
 		echo 'datadir = /var/lib/mysql'; \
 	} > /etc/mysql/conf.d/docker.cnf
-
-RUN { \
-    echo '[client]'; \
-    echo 'default-character-set=utf8'; \
-
-    echo '[mysql]'; \
-    echo 'default-character-set=utf8'; \
-
-    echo '[mysqld]'; \
-    echo 'collation-server = utf8_unicode_ci'; \
-    echo 'init-connect='SET NAMES utf8''; \
-    echo 'character-set-server = utf8'; \
-} > /etc/mysql/my.conf
 
 VOLUME /var/lib/mysql
 
