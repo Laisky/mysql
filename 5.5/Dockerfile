@@ -50,10 +50,17 @@ RUN mkdir -p /etc/mysql/conf.d \
 	} > /etc/mysql/conf.d/docker.cnf
 
 RUN { \
+    echo '[client]'; \
+    echo 'default-character-set=utf8'; \
+
+    echo '[mysql]'; \
+    echo 'default-character-set=utf8'; \
+
     echo '[mysqld]'; \
+    echo 'collation-server = utf8_unicode_ci'; \
+    echo 'init-connect='SET NAMES utf8''; \
     echo 'character-set-server = utf8'; \
-    echo 'default-collation = utf8_unicode_ci'; \
-} > /etc/mysql/conf.d/charset.cnf
+} > /etc/mysql/my.conf
 
 VOLUME /var/lib/mysql
 
